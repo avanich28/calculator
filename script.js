@@ -41,7 +41,6 @@ const noOperator = function (a) {
 let storeNumA;
 let storeNumB = String(0); // display
 let operator;
-let secondOperator;
 
 // Compute function
 const compute = function (e) {
@@ -58,6 +57,8 @@ const compute = function (e) {
     display.textContent = storeNumB.split('').includes('.')
       ? String(0)
       : display.textContent;
+    storeNumA = storeNumB; // 💥
+    console.log(storeNumA);
     storeNumB = String(0);
   } else {
     let result;
@@ -72,7 +73,10 @@ const compute = function (e) {
     }
 
     storeNumB = String(result);
-    display.textContent = `${+storeNumB}`; // num for e+... ?
+    storeNumA = storeNumB; // 💥
+    // for equal button
+    display.textContent = `${+storeNumA}`; // num for e+... ? // ตอนแรก storeNumB นะ ลองๆๆๆ
+    storeNumB = String(0);
   }
 };
 
@@ -146,20 +150,26 @@ const convertPerToNum = function (e) {
 };
 
 // Operator function
+let storeOperator;
 const assignOperator = function (e) {
   e.preventDefault();
-  // if (storeNumA === undefined) {
-  // For string several operations
-  // Need to compute every time when the operator is clicked.
-  operator = e.target.id;
-  compute(e); // Nan when click clear (operator = e.target.id => 'none')
-  operator;
-  // Switch numB to numA
-  storeNumA = storeNumB;
-  // Reset numB
-  storeNumB = String(0);
-  // display.textContent = storeNumA;
-  // }
+  operator = storeOperator;
+  storeOperator = e.target.id;
+  console.log(storeOperator);
+  compute(e);
+  // Move these 2 lines to compute function instead
+  // storeNumA = storeNumB;
+  // storeNumB = String(0);
+};
+
+// Equal function
+const executeValue = function (e) {
+  e.preventDefault();
+  operator = storeOperator;
+  storeOperator = e.target.id;
+  compute(e);
+  // storeOperator = e.target.id;
+  // storeNumB = storeNumA; // for click operator again
 };
 
 // Clear function
@@ -169,8 +179,8 @@ const clearValue = function (e) {
   storeNumA;
   storeNumB = String(0);
   operator;
-  assignOperator(e); // Nan
-  display.textContent = String(0); // str
+  storeOperator;
+  display.textContent = String(0);
 };
 
 // Assign number as string on display
@@ -186,6 +196,4 @@ operatorsBtn.forEach(el => el.addEventListener('click', assignOperator));
 // Clear value
 clearBtn.addEventListener('click', clearValue);
 // = button (compute expression)
-equalBtn.addEventListener('click', compute);
-
-console.log(null == 'null');
+equalBtn.addEventListener('click', executeValue);
