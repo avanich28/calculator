@@ -57,8 +57,7 @@ const compute = function (e) {
     display.textContent = storeNumB.split('').includes('.')
       ? String(0)
       : display.textContent;
-    storeNumA = storeNumB; // 💥
-    console.log(storeNumA);
+    storeNumA = display.textContent; // 💥
     storeNumB = String(0);
   } else {
     let result;
@@ -162,16 +161,6 @@ const assignOperator = function (e) {
   // storeNumB = String(0);
 };
 
-// Equal function
-const executeValue = function (e) {
-  e.preventDefault();
-  operator = storeOperator;
-  storeOperator = e.target.id;
-  compute(e);
-  // storeOperator = e.target.id;
-  // storeNumB = storeNumA; // for click operator again
-};
-
 // Clear function
 const clearValue = function (e) {
   e.preventDefault();
@@ -196,4 +185,7 @@ operatorsBtn.forEach(el => el.addEventListener('click', assignOperator));
 // Clear value
 clearBtn.addEventListener('click', clearValue);
 // = button (compute expression)
-equalBtn.addEventListener('click', executeValue);
+equalBtn.addEventListener('click', assignOperator);
+
+console.log(0 || 2);
+console.log(2 || 0);
