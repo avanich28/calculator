@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>🧮 Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+
+    <!-- for erase 'favicon not found' error on dev tool -->
+    <link rel="shortcut icon" href="#" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="display">0</div>
+      <form>
+        <div class="row1">
+          <button id="none" class="clear symbol-2">AC</button>
+          <button class="sign symbol-2">+/-</button>
+          <button id="percent" class="symbol-2">%</button>
+          <button id="divide" class="math symbol">÷</button>
+        </div>
+        <div class="row2">
+          <button class="number">7</button>
+          <button class="number">8</button>
+          <button class="number">9</button>
+          <button id="multiply" class="math symbol">x</button>
+        </div>
+        <div class="row3">
+          <button class="number">4</button>
+          <button class="number">5</button>
+          <button class="number">6</button>
+          <button id="subtract" class="math symbol">-</button>
+        </div>
+        <div class="row4">
+          <button class="number">1</button>
+          <button class="number">2</button>
+          <button class="number">3</button>
+          <button id="add" class="math symbol">+</button>
+        </div>
+        <div class="row5">
+          <button class="number">0</button>
+          <button class="decimal">.</button>
+          <button class="equal symbol">=</button>
+        </div>
+        <div class="row6">
+          <button class="left symbol-2">◄</button>
+          <button class="right symbol-2">►</button>
+          <button class="delete symbol-2">Del</button>
+        </div>
+      </form>
+      <audio class="audio" src="sounds/cork.mp3"></audio>
+    </div>
+  </body>
+</html>
