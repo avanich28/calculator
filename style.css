@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@200;300&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Alexandria', sans-serif;
+  color: white;
+}
+
+.container {
+  margin: 135px auto;
+  width: 320px;
+  height: 420px;
+  border: 2px solid black;
+  border-radius: 4.8%;
+  background-color: rgba(0, 0, 0, 0.653);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.801);
+}
+
+.container-display {
+  flex: none; /* 0 0 auto*/
+  height: 25%;
+  text-align: right;
+  font-size: 60px;
+  font-weight: lighter;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.display {
+  flex: 1;
+  align-self: flex-end;
+  margin-right: 12px;
+}
+
+button {
+  font-family: 'Alexandria', sans-serif;
+  font-size: 25px;
+  border: none;
+  background-color: rgba(200, 203, 205, 0.623);
+  color: white;
+}
+
+button:active {
+  transform: scale(0.94);
+  background-color: rgb(212, 209, 209);
+}
+
+.container-button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  flex: 1;
+  display: flex;
+  gap: 2px;
+}
+
+.row button {
+  flex: 1;
+}
+
+button.symbol {
+  font-size: 40px;
+  background-color: rgb(255, 166, 0);
+}
+
+button.symbol.multiply {
+  font-size: 30px;
+}
+
+button.symbol:active {
+  transform: scale(0.94);
+  background-color: rgba(255, 166, 0, 0.586);
+}
+
+button.symbol-2 {
+  background-color: rgba(145, 119, 119, 0.808);
+}
+
+button.symbol-2:active {
+  transform: scale(0.94);
+  background-color: rgba(200, 203, 205, 0.623);
+}
+/* 
+how to wrap image ? */
+/* div.day-night {
+  display: inline;
+  height: 100px;
+  width: 100px;
+  border: 1px solid black;
+  border-radius: 50%;
+} */
+
+.night {
+  background-color: rgb(18, 32, 63);
+}

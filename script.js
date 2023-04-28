@@ -8,7 +8,9 @@ const numbersBtn = document.querySelectorAll('.number');
 const decimalBtn = document.querySelector('.decimal');
 const operatorsBtn = document.querySelectorAll('.math');
 const equalBtn = document.querySelector('.equal');
+const deleteBtn = document.querySelector('.delete');
 const audio = document.querySelector('.audio');
+const modeDayNight = document.getElementById('mode');
 
 // Math function for computing
 const add = function (a = 0, b) {
@@ -37,10 +39,14 @@ const noOperator = function (a) {
   return a;
 };
 
-// Default Value (fibonacci)
+// fibonacci technique!
+// const tempt = b;
+// a = b;
+// b = a + tempt;
+
+// Default Value
 let storeNumA;
-let storeNumB = String(0); // display
-let operator;
+let storeNumB = String(0); // first value
 
 // Compute function
 const compute = function (e) {
@@ -74,12 +80,12 @@ const compute = function (e) {
     storeNumB = String(result);
     storeNumA = storeNumB; // 💥
     // for equal button
-    display.textContent = `${+storeNumA}`; // num for e+... ? // ตอนแรก storeNumB นะ ลองๆๆๆ
+    display.textContent = `${+storeNumA}`; // num for e+... ?
     storeNumB = String(0);
   }
 };
 
-// Check display length
+// Check display length 💥
 const checkLength = function (display) {
   const length = display.split('').length;
   return length >= 20 ? 'overflow' : 'continue';
@@ -96,9 +102,7 @@ const displayCalc = function (e) {
     audio.play(); // Invalid sound
   } else {
     const num = e.target.textContent;
-    if (storeNumB === String(0)) {
-      storeNumB = num;
-    } else if (storeNumB === 'Not a number') {
+    if (storeNumB === String(0) || storeNumB === 'Not a number') {
       storeNumB = num;
     } else {
       const newNum = storeNumB + num;
@@ -149,16 +153,17 @@ const convertPerToNum = function (e) {
 };
 
 // Operator function
+let operator;
 let storeOperator;
 const assignOperator = function (e) {
   e.preventDefault();
-  operator = storeOperator;
+  operator = storeOperator; // previous operator
   storeOperator = e.target.id;
   console.log(storeOperator);
   compute(e);
   // Move these 2 lines to compute function instead
-  // storeNumA = storeNumB;
-  // storeNumB = String(0);
+  // storeNumA = storeNumB; // store value
+  // storeNumB = String(0); // reset value
 };
 
 // Clear function
@@ -184,8 +189,46 @@ percentBtn.addEventListener('click', convertPerToNum);
 operatorsBtn.forEach(el => el.addEventListener('click', assignOperator));
 // Clear value
 clearBtn.addEventListener('click', clearValue);
+// Undo number on display
+// deleteBtn.addEventListener('click'); // 💥
 // = button (compute expression)
 equalBtn.addEventListener('click', assignOperator);
 
-console.log(0 || 2);
-console.log(2 || 0);
+// Add key press
+window.addEventListener('keydown', e => {
+  const key = e.key;
+
+  numbersBtn.forEach(el => {
+    if (el.textContent === key) {
+      el.click();
+    }
+  });
+
+  operatorsBtn.forEach(el => {
+    if (key === '/' && el.textContent === '÷') {
+      el.click();
+    } else if (key === '*' && el.textContent === 'x') {
+      el.click();
+    } else if (el.textContent === key) {
+      el.click();
+    }
+  });
+
+  if (key === '.') {
+    decimalBtn.click();
+  } else if (key === 'n' || key === 'p') {
+    signBtn.click();
+  } else if (key === '%') {
+    percentBtn.click();
+  } else if (key === 'c') {
+    clearBtn.click();
+  } else if (key === 'Enter') {
+    equalBtn.click();
+  } else if (key === 'Backspace') {
+    deleteBtn.click();
+  }
+});
+
+modeDayNight.addEventListener('mousedown', () => {
+  document.body.classList.toggle('night');
+});
