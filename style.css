@@ -8,8 +8,17 @@ body {
   color: white;
 }
 
+/* margin: 135px auto; */
 .container {
-  margin: 135px auto;
+  padding-block: min(20vh, 20rem);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.sub-container {
+  flex: none;
   width: 320px;
   height: 420px;
   border: 2px solid black;
@@ -19,6 +28,10 @@ body {
   flex-direction: column;
   overflow: hidden;
   box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.801);
+}
+
+.container-icon {
+  flex: 0 1 auto;
 }
 
 .container-display {
@@ -87,17 +100,16 @@ button.symbol-2 {
 
 button.symbol-2:active {
   transform: scale(0.94);
-  background-color: rgba(200, 203, 205, 0.623);
+  background-color: rgba(215, 87, 64, 0.698);
 }
-/* 
-how to wrap image ? */
-/* div.day-night {
-  display: inline;
-  height: 100px;
-  width: 100px;
-  border: 1px solid black;
-  border-radius: 50%;
-} */
+
+.fa-moon {
+  color: rgb(30, 48, 80);
+}
+
+.white-moon {
+  color: white;
+}
 
 .night {
   background-color: rgb(18, 32, 63);

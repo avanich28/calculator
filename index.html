@@ -8,56 +8,56 @@
     <title>🧮 Calculator</title>
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
+    <script
+      src="https://kit.fontawesome.com/7fd19f1246.js"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- for erase 'favicon not found' error on dev tool -->
     <link rel="shortcut icon" href="#" />
   </head>
   <body>
-    <div class="day-night">
-      <img
-        id="mode"
-        width="50"
-        height="50"
-        src="images/day-and-night.png"
-        alt="moon"
-      />
-    </div>
     <div class="container">
-      <div class="container-display">
-        <div class="display">0</div>
+      <div class="sub-container">
+        <div class="container-display">
+          <div class="display">0</div>
+        </div>
+        <form class="container-button">
+          <div class="row">
+            <button id="none" class="clear symbol-2">AC</button>
+            <button class="sign symbol-2">+/-</button>
+            <button id="percent" class="symbol-2">%</button>
+            <button id="divide" class="math symbol">÷</button>
+          </div>
+          <div class="row">
+            <button class="number">7</button>
+            <button class="number">8</button>
+            <button class="number">9</button>
+            <button id="multiply" class="math symbol multiply">x</button>
+          </div>
+          <div class="row">
+            <button class="number">4</button>
+            <button class="number">5</button>
+            <button class="number">6</button>
+            <button id="subtract" class="math symbol">-</button>
+          </div>
+          <div class="row">
+            <button class="number">1</button>
+            <button class="number">2</button>
+            <button class="number">3</button>
+            <button id="add" class="math symbol" data-key="+">+</button>
+          </div>
+          <div class="row">
+            <button class="number">0</button>
+            <button class="decimal">.</button>
+            <button class="delete symbol-2">Del</button>
+            <button id="none" class="equal symbol">=</button>
+          </div>
+        </form>
       </div>
-      <form class="container-button">
-        <div class="row">
-          <button id="none" class="clear symbol-2">AC</button>
-          <button class="sign symbol-2">+/-</button>
-          <button id="percent" class="symbol-2">%</button>
-          <button id="divide" class="math symbol">÷</button>
-        </div>
-        <div class="row">
-          <button class="number">7</button>
-          <button class="number">8</button>
-          <button class="number">9</button>
-          <button id="multiply" class="math symbol multiply">x</button>
-        </div>
-        <div class="row">
-          <button class="number">4</button>
-          <button class="number">5</button>
-          <button class="number">6</button>
-          <button id="subtract" class="math symbol">-</button>
-        </div>
-        <div class="row">
-          <button class="number">1</button>
-          <button class="number">2</button>
-          <button class="number">3</button>
-          <button id="add" class="math symbol" data-key="+">+</button>
-        </div>
-        <div class="row">
-          <button class="number">0</button>
-          <button class="decimal">.</button>
-          <button class="delete symbol-2">Del</button>
-          <button id="none" class="equal symbol">=</button>
-        </div>
-      </form>
+      <div class="container-icon">
+        <i id="mode" class="fa-solid fa-moon fa-2xl"></i>
+      </div>
     </div>
     <audio class="audio" src="sounds/cork.mp3"></audio>
   </body>

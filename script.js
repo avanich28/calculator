@@ -21,13 +21,19 @@ const subtract = function (a = 0, b) {
   return a - b;
 };
 
-const multiply = function (a = 1, b) {
+const multiply = function (a, b) {
+  if (a === undefined) {
+    a = 0;
+  }
   return a * b;
 };
 
 const divide = function (a, b) {
-  if (b === 0) return 'Not a number';
-  else if (a === undefined) return b;
+  if (a === undefined) {
+    return b;
+  } else if (b === 0) {
+    return 'Not a number';
+  }
   return a / b;
 };
 
@@ -136,7 +142,9 @@ const displayDecimal = function (e) {
 const changeSignNum = function (e) {
   e.preventDefault();
   const tempt = storeNumB;
-  if (storeNumB[0] !== '-') {
+  if (tempt === String(0)) {
+    storeNumB = tempt;
+  } else if (storeNumB[0] !== '-') {
     storeNumB = `-${tempt}`;
   } else {
     storeNumB = tempt.replace('-', '');
@@ -166,6 +174,29 @@ const assignOperator = function (e) {
   // storeNumB = String(0); // reset value
 };
 
+const undoNum = function (e) {
+  e.preventDefault();
+  if (
+    storeNumB.length === 1 ||
+    (storeNumB.length === 2 && storeNumB[0] === '-')
+  ) {
+    storeNumB = String(0);
+    display.textContent = storeNumB;
+  } else {
+    const newStrNum = storeNumB
+      .split('')
+      .slice(0, storeNumB.length - 1)
+      .join('');
+    if (newStrNum === 0) {
+      storeNumB = String(0);
+      display.textContent = storeNumB;
+    } else {
+      storeNumB = newStrNum;
+      display.textContent = storeNumB;
+    }
+  }
+};
+
 // Clear function
 const clearValue = function (e) {
   e.preventDefault();
@@ -190,8 +221,8 @@ operatorsBtn.forEach(el => el.addEventListener('click', assignOperator));
 // Clear value
 clearBtn.addEventListener('click', clearValue);
 // Undo number on display
-// deleteBtn.addEventListener('click'); // 💥
-// = button (compute expression)
+deleteBtn.addEventListener('click', undoNum);
+// compute expression
 equalBtn.addEventListener('click', assignOperator);
 
 // Add key press
@@ -229,6 +260,8 @@ window.addEventListener('keydown', e => {
   }
 });
 
+// Change body background color
 modeDayNight.addEventListener('mousedown', () => {
   document.body.classList.toggle('night');
+  modeDayNight.classList.toggle('white-moon');
 });
