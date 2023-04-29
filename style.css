@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@200;300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@200;300&family=Red+Hat+Mono:wght@300&display=swap');
 
 body {
   margin: 0;
@@ -38,7 +38,6 @@ body {
   flex: none; /* 0 0 auto*/
   height: 25%;
   text-align: right;
-  font-size: 60px;
   font-weight: lighter;
   display: flex;
   justify-content: flex-end;
@@ -46,8 +45,10 @@ body {
 
 .display {
   flex: 1;
-  align-self: flex-end;
+  font-size: 50px;
   margin-right: 12px;
+  align-self: flex-end;
+  font-family: 'Red Hat Mono', monospace;
 }
 
 button {
@@ -56,9 +57,11 @@ button {
   border: none;
   background-color: rgba(200, 203, 205, 0.623);
   color: white;
+  transition: all 0.07s ease; /* for add and remove classList*/
 }
 
-button:active {
+button:active,
+.key-press-1 {
   transform: scale(0.94);
   background-color: rgb(212, 209, 209);
 }
@@ -89,7 +92,8 @@ button.symbol.multiply {
   font-size: 30px;
 }
 
-button.symbol:active {
+button.symbol:active,
+.key-press-2 {
   transform: scale(0.94);
   background-color: rgba(255, 166, 0, 0.586);
 }
@@ -98,7 +102,8 @@ button.symbol-2 {
   background-color: rgba(145, 119, 119, 0.808);
 }
 
-button.symbol-2:active {
+button.symbol-2:active,
+.key-press-3 {
   transform: scale(0.94);
   background-color: rgba(215, 87, 64, 0.698);
 }

@@ -11,6 +11,7 @@ const equalBtn = document.querySelector('.equal');
 const deleteBtn = document.querySelector('.delete');
 const audio = document.querySelector('.audio');
 const modeDayNight = document.getElementById('mode');
+const keyPress = document.querySelectorAll('button');
 
 // Math function for computing
 const add = function (a = 0, b) {
@@ -57,6 +58,17 @@ const noOperator = function (a) {
 let storeNumA;
 let storeNumB = String(0); // first value
 
+// Round // 💥
+// const roundNumber = function (numB) {
+//   if (numB.length > 10) {
+//     const getNum = numB.split('').slice(0, 11).join('');
+//     const round = Math.round(+getNum).toString();
+//     return round;
+//   } else {
+//     return numB;
+//   }
+// };
+
 // Compute function
 const compute = function (e) {
   e.preventDefault();
@@ -87,6 +99,7 @@ const compute = function (e) {
     }
 
     storeNumB = typeof result === 'string' ? result : String(result);
+    console.log(result);
     storeNumA = storeNumB; // 💥
     // for equal button
     display.textContent = storeNumA; // str
@@ -97,15 +110,16 @@ const compute = function (e) {
 // Check display length 💥
 const checkLength = function (display) {
   const length = display.split('').length;
-  return length >= 20 ? 'overflow' : 'continue';
+  return length >= 10 ? 'overflow' : 'continue';
 };
 
 // Display function
 const displayCalc = function (e) {
   e.preventDefault();
   clearBtn.textContent = 'C';
-  if (checkLength(display.textContent) === 'overflow') {
+  if (checkLength(storeNumB) === 'overflow') {
     display.textContent = storeNumB; // str
+    // storeNumB = e.target.textContent;
     audio.currentTime = 0;
     audio.volume = 0.2;
     audio.play(); // Invalid sound
@@ -247,6 +261,12 @@ deleteBtn.addEventListener('click', undoNum);
 // compute expression
 equalBtn.addEventListener('click', assignOperator);
 
+// Background mode
+modeDayNight.addEventListener('mousedown', () => {
+  document.body.classList.toggle('night');
+  modeDayNight.classList.toggle('white-moon');
+});
+
 // Add key press
 window.addEventListener('keydown', e => {
   const key = e.key;
@@ -254,36 +274,51 @@ window.addEventListener('keydown', e => {
   numbersBtn.forEach(el => {
     if (el.textContent === key) {
       el.click();
+      el.classList.add('key-press-1');
     }
   });
 
   operatorsBtn.forEach(el => {
     if (key === '/' && el.textContent === '÷') {
       el.click();
+      el.classList.add('key-press-2');
     } else if (key === '*' && el.textContent === 'x') {
       el.click();
+      el.classList.add('key-press-2');
     } else if (el.textContent === key) {
       el.click();
+      el.classList.add('key-press-2');
     }
   });
 
   if (key === '.') {
     decimalBtn.click();
+    decimalBtn.classList.add('key-press-1');
   } else if (key === 'n' || key === 'p') {
     signBtn.click();
+    signBtn.classList.add('key-press-3');
   } else if (key === '%') {
     percentBtn.click();
+    percentBtn.classList.add('key-press-3');
   } else if (key === 'c') {
     clearBtn.click();
+    clearBtn.classList.add('key-press-3');
   } else if (key === 'Enter') {
     equalBtn.click();
+    equalBtn.classList.add('key-press-2');
   } else if (key === 'Backspace') {
     deleteBtn.click();
+    deleteBtn.classList.add('key-press-3');
   }
 });
 
-// Change body background color
-modeDayNight.addEventListener('mousedown', () => {
-  document.body.classList.toggle('night');
-  modeDayNight.classList.toggle('white-moon');
-});
+const removeTransition = function (e) {
+  console.log(e);
+  if (e.propertyName !== 'transform') return;
+  this.classList.remove('key-press-1');
+  this.classList.remove('key-press-2');
+  this.classList.remove('key-press-3');
+};
+keyPress.forEach(key =>
+  key.addEventListener('transitionend', removeTransition)
+);
