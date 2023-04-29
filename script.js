@@ -29,12 +29,15 @@ const multiply = function (a, b) {
 };
 
 const divide = function (a, b) {
+  console.log(a);
+  console.log(b);
   if (a === undefined) {
-    return b;
+    a = 0;
   } else if (b === 0) {
     return 'Not a number';
+  } else {
+    return a / b;
   }
-  return a / b;
 };
 
 const percent = function (a) {
@@ -57,8 +60,7 @@ let storeNumB = String(0); // first value
 // Compute function
 const compute = function (e) {
   e.preventDefault();
-  console.log(operator);
-
+  // console.log(operator);
   if (storeNumB === 'Not a number') {
     display.textContent = 'Not a number';
     audio.currentTime = 0;
@@ -81,12 +83,13 @@ const compute = function (e) {
       result = multiply(+storeNumA || undefined, +storeNumB);
     } else if (operator === 'divide') {
       result = divide(+storeNumA || undefined, +storeNumB);
+      console.log(result);
     }
 
-    storeNumB = String(result);
+    storeNumB = typeof result === 'string' ? result : String(result);
     storeNumA = storeNumB; // 💥
     // for equal button
-    display.textContent = `${+storeNumA}`; // num for e+... ?
+    display.textContent = storeNumA; // str
     storeNumB = String(0);
   }
 };
@@ -141,10 +144,10 @@ const displayDecimal = function (e) {
 // Sign +/- function
 const changeSignNum = function (e) {
   e.preventDefault();
-  const tempt = storeNumB;
+  const tempt = display.textContent;
   if (tempt === String(0)) {
     storeNumB = tempt;
-  } else if (storeNumB[0] !== '-') {
+  } else if (tempt[0] !== '-') {
     storeNumB = `-${tempt}`;
   } else {
     storeNumB = tempt.replace('-', '');
@@ -163,12 +166,30 @@ const convertPerToNum = function (e) {
 // Operator function
 let operator;
 let storeOperator;
+
+// Store firstOperand and secondOperand
+let arr = [0, 0]; // for click equal many time
+
 const assignOperator = function (e) {
   e.preventDefault();
-  operator = storeOperator; // previous operator
-  storeOperator = e.target.id;
-  console.log(storeOperator);
-  compute(e);
+  if (storeOperator === 'none' && e.target.id === 'none') {
+    if (display.textContent === 'Not a number') {
+      storeNumB = 'Not a number';
+    } else {
+      const tempt = operator;
+      operator = tempt;
+      storeOperator = e.target.id;
+      storeNumB = arr[1]; // 💥
+    }
+    compute(e);
+  } else {
+    operator = storeOperator; // previous operator
+    storeOperator = e.target.id;
+    arr[0] = storeNumA;
+    arr[1] = storeNumB;
+    console.log(arr);
+    compute(e);
+  }
   // Move these 2 lines to compute function instead
   // storeNumA = storeNumB; // store value
   // storeNumB = String(0); // reset value
@@ -201,10 +222,11 @@ const undoNum = function (e) {
 const clearValue = function (e) {
   e.preventDefault();
   clearBtn.textContent = 'AC';
-  storeNumA;
+  storeNumA = undefined;
   storeNumB = String(0);
   operator;
   storeOperator;
+  arr = [0, 0];
   display.textContent = String(0);
 };
 
