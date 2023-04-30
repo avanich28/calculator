@@ -29,12 +29,11 @@ const multiply = function (a, b) {
 };
 
 const divide = function (a, b) {
-  console.log(a);
-  console.log(b);
   if (a === undefined) {
     a = 0;
+    return a / 1;
   } else if (b === 0) {
-    return 'Not a number';
+    return 'NaN :(';
   } else {
     return a / b;
   }
@@ -58,8 +57,9 @@ let storeNumA;
 let storeNumB = String(0); // first value
 
 const roundNumber = function (numB) {
-  console.log(numB);
-  if (numB.length > 10) {
+  if (numB === 'NaN :(') {
+    return numB;
+  } else if (numB.length > 10) {
     // e = 10
     const pow = 15;
     // parse string and return first number
@@ -74,8 +74,8 @@ const roundNumber = function (numB) {
 const compute = function (e) {
   e.preventDefault();
 
-  if (storeNumB === 'Not a number') {
-    display.textContent = 'Not a number';
+  if (storeNumB === 'NaN :(') {
+    display.textContent = 'NaN :(';
     audio.currentTime = 0;
     audio.volume = 0.2;
     audio.play(); // Invalid sound
@@ -94,12 +94,10 @@ const compute = function (e) {
       result = multiply(+storeNumA || undefined, +storeNumB);
     } else if (operator === 'divide') {
       result = divide(+storeNumA || undefined, +storeNumB);
-      console.log(result);
     }
 
-    // Check if it is a 'Not a number' string
+    // Check if it is a 'NaN :(' string
     storeNumB = typeof result === 'string' ? result : String(result);
-
     // When user click operator button or repeatedly click equal button without define second operands, we need to store first computed number in storeNumA first before .
     // 1 Store value
     storeNumA = storeNumB;
@@ -125,7 +123,7 @@ const updateDisplay = function (e) {
     audio.play(); // Invalid sound
   } else {
     const num = e.target.textContent;
-    if (storeNumB === String(0) || storeNumB === 'Not a number') {
+    if (storeNumB === String(0) || storeNumB === 'NaN :(') {
       storeNumB = num;
     } else {
       const newNum = storeNumB + num;
@@ -140,7 +138,7 @@ const displayDecimal = function (e) {
   clearBtn.textContent = 'C';
   const hasDecimal = storeNumB.split('').includes('.');
 
-  if (storeNumB === 'Not a number') {
+  if (storeNumB === 'NaN :(') {
     storeNumB = 0 + '.';
   } else if (!hasDecimal) {
     const tempt = storeNumB;
@@ -184,8 +182,8 @@ let operands = [0, 0]; // for click equal many time
 const assignOperator = function (e) {
   e.preventDefault();
   if (storeOperator === 'none' && e.target.id === 'none') {
-    if (display.textContent === 'Not a number') {
-      storeNumB = 'Not a number';
+    if (display.textContent === 'NaN :(') {
+      storeNumB = 'NaN :(';
     } else {
       // Use the same operator if user doesn't click new operator and repeatedly click equal button.
       const tempt = operator;
@@ -300,7 +298,7 @@ window.addEventListener('keydown', e => {
 const removeTransition = function (e) {
   if (e.propertyName !== 'transform') return;
   for (let i = 1; i <= 3; i++) {
-    this.classList.remove(`key-press-${i}`);
+    e.target.classList.remove(`key-press-${i}`);
   }
 };
 

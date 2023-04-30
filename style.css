@@ -34,7 +34,7 @@ body {
 
 .container-display {
   flex: none; /* 0 0 auto*/
-  height: 25%;
+  height: 26%;
   text-align: right;
   font-weight: lighter;
   display: flex;
@@ -42,9 +42,9 @@ body {
 }
 
 .display {
-  flex: 1;
+  flex: 0 0 auto;
   font-size: 50px;
-  margin-right: 12px;
+  margin-right: 15px;
   align-self: flex-end;
   font-family: 'Red Hat Mono', monospace;
 }
@@ -81,26 +81,26 @@ button:active,
   flex: 1;
 }
 
-button.symbol {
+.symbol {
   font-size: 40px;
   background-color: rgb(255, 166, 0);
 }
 
-button.symbol.multiply {
+.symbol.multiply {
   font-size: 30px;
 }
 
-button.symbol:active,
+.symbol:active,
 .key-press-2 {
   transform: scale(0.94);
   background-color: rgba(255, 166, 0, 0.586);
 }
 
-button.symbol-2 {
+.symbol-2 {
   background-color: rgba(145, 119, 119, 0.808);
 }
 
-button.symbol-2:active,
+.symbol-2:active,
 .key-press-3 {
   transform: scale(0.94);
   background-color: rgba(215, 87, 64, 0.698);
