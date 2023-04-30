@@ -13,7 +13,6 @@ const audio = document.querySelector('.audio');
 const modeDayNight = document.getElementById('mode');
 const keyPress = document.querySelectorAll('button');
 
-// Math function for computing
 const add = function (a = 0, b) {
   return a + b;
 };
@@ -58,32 +57,32 @@ const noOperator = function (a) {
 let storeNumA;
 let storeNumB = String(0); // first value
 
-// Round // 💥
-// const roundNumber = function (numB) {
-//   if (numB.length > 10) {
-//     const getNum = numB.split('').slice(0, 11).join('');
-//     const round = Math.round(+getNum).toString();
-//     return round;
-//   } else {
-//     return numB;
-//   }
-// };
+const roundNumber = function (numB) {
+  console.log(numB);
+  if (numB.length > 10) {
+    // e = 10
+    const pow = 15;
+    // parse string and return first number
+    const round = parseFloat(Math.round(+numB + 'e' + pow) + 'e-' + pow); // num
+    return round.toString().substring(0, 10);
+  } else {
+    return numB;
+  }
+};
 
-// Compute function
+// Compute by calling math function at the above
 const compute = function (e) {
   e.preventDefault();
-  // console.log(operator);
+
   if (storeNumB === 'Not a number') {
     display.textContent = 'Not a number';
     audio.currentTime = 0;
     audio.volume = 0.2;
     audio.play(); // Invalid sound
   } else if (operator === undefined || operator === 'none') {
-    // no change
-    display.textContent = storeNumB.split('').includes('.')
-      ? String(0)
-      : display.textContent;
-    storeNumA = display.textContent; // 💥
+    // no operator - no compute - no change - 0. value
+    display.textContent = storeNumB === '0.' ? String(0) : display.textContent;
+    storeNumA = display.textContent;
     storeNumB = String(0);
   } else {
     let result;
@@ -98,28 +97,29 @@ const compute = function (e) {
       console.log(result);
     }
 
+    // Check if it is a 'Not a number' string
     storeNumB = typeof result === 'string' ? result : String(result);
-    console.log(result);
-    storeNumA = storeNumB; // 💥
-    // for equal button
-    display.textContent = storeNumA; // str
+
+    // When user click operator button or repeatedly click equal button without define second operands, we need to store first computed number in storeNumA first before .
+    // 1 Store value
+    storeNumA = storeNumB;
+    // 2 Round number
+    display.textContent = roundNumber(storeNumA); // str
+    // 3 Reset value
     storeNumB = String(0);
   }
 };
 
-// Check display length 💥
-const checkLength = function (display) {
-  const length = display.split('').length;
+const checkStrLength = function (numOnDisplay) {
+  const length = numOnDisplay.split('').length;
   return length >= 10 ? 'overflow' : 'continue';
 };
 
-// Display function
-const displayCalc = function (e) {
+const updateDisplay = function (e) {
   e.preventDefault();
   clearBtn.textContent = 'C';
-  if (checkLength(storeNumB) === 'overflow') {
+  if (checkStrLength(storeNumB) === 'overflow') {
     display.textContent = storeNumB; // str
-    // storeNumB = e.target.textContent;
     audio.currentTime = 0;
     audio.volume = 0.2;
     audio.play(); // Invalid sound
@@ -135,7 +135,6 @@ const displayCalc = function (e) {
   }
 };
 
-// Decimal rule function
 const displayDecimal = function (e) {
   e.preventDefault();
   clearBtn.textContent = 'C';
@@ -155,7 +154,6 @@ const displayDecimal = function (e) {
   }
 };
 
-// Sign +/- function
 const changeSignNum = function (e) {
   e.preventDefault();
   const tempt = display.textContent;
@@ -169,20 +167,19 @@ const changeSignNum = function (e) {
   display.textContent = storeNumB; // str
 };
 
-// Convert percentage function
 const convertPerToNum = function (e) {
   e.preventDefault();
   const newNum = percent(+storeNumB);
-  storeNumB = String(newNum); // num
+  storeNumB = String(newNum);
   display.textContent = storeNumB; // str
 };
 
-// Operator function
+// Need to store first operator before press numB
 let operator;
 let storeOperator;
 
 // Store firstOperand and secondOperand
-let arr = [0, 0]; // for click equal many time
+let operands = [0, 0]; // for click equal many time
 
 const assignOperator = function (e) {
   e.preventDefault();
@@ -190,23 +187,20 @@ const assignOperator = function (e) {
     if (display.textContent === 'Not a number') {
       storeNumB = 'Not a number';
     } else {
+      // Use the same operator if user doesn't click new operator and repeatedly click equal button.
       const tempt = operator;
       operator = tempt;
       storeOperator = e.target.id;
-      storeNumB = arr[1]; // 💥
+      storeNumB = operands[1];
     }
     compute(e);
   } else {
-    operator = storeOperator; // previous operator
-    storeOperator = e.target.id;
-    arr[0] = storeNumA;
-    arr[1] = storeNumB;
-    console.log(arr);
+    operator = storeOperator; // Use previous operator
+    storeOperator = e.target.id; // Store new one
+    operands[0] = storeNumA;
+    operands[1] = storeNumB;
     compute(e);
   }
-  // Move these 2 lines to compute function instead
-  // storeNumA = storeNumB; // store value
-  // storeNumB = String(0); // reset value
 };
 
 const undoNum = function (e) {
@@ -232,7 +226,6 @@ const undoNum = function (e) {
   }
 };
 
-// Clear function
 const clearValue = function (e) {
   e.preventDefault();
   clearBtn.textContent = 'AC';
@@ -240,26 +233,18 @@ const clearValue = function (e) {
   storeNumB = String(0);
   operator;
   storeOperator;
-  arr = [0, 0];
+  operands = [0, 0];
   display.textContent = String(0);
 };
 
-// Assign number as string on display
-numbersBtn.forEach(el => el.addEventListener('click', displayCalc));
-// Can assign decimal only 1 time
-decimalBtn.addEventListener('click', displayDecimal);
-// Switch + and - as string on display
-signBtn.addEventListener('click', changeSignNum);
-// Convert % to real number
+numbersBtn.forEach(el => el.addEventListener('click', updateDisplay)); // Assign number as string on display
+decimalBtn.addEventListener('click', displayDecimal); // Can assign decimal only 1 time
+signBtn.addEventListener('click', changeSignNum); // Switch + and - as string on display
 percentBtn.addEventListener('click', convertPerToNum);
-// Assign + - x ÷
-operatorsBtn.forEach(el => el.addEventListener('click', assignOperator));
-// Clear value
+operatorsBtn.forEach(el => el.addEventListener('click', assignOperator)); // Assign + - x ÷
 clearBtn.addEventListener('click', clearValue);
-// Undo number on display
-deleteBtn.addEventListener('click', undoNum);
-// compute expression
-equalBtn.addEventListener('click', assignOperator);
+deleteBtn.addEventListener('click', undoNum); // Undo number on display
+equalBtn.addEventListener('click', assignOperator); // compute expression
 
 // Background mode
 modeDayNight.addEventListener('mousedown', () => {
@@ -313,12 +298,12 @@ window.addEventListener('keydown', e => {
 });
 
 const removeTransition = function (e) {
-  console.log(e);
   if (e.propertyName !== 'transform') return;
-  this.classList.remove('key-press-1');
-  this.classList.remove('key-press-2');
-  this.classList.remove('key-press-3');
+  for (let i = 1; i <= 3; i++) {
+    this.classList.remove(`key-press-${i}`);
+  }
 };
+
 keyPress.forEach(key =>
   key.addEventListener('transitionend', removeTransition)
 );
