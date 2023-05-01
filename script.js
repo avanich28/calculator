@@ -29,6 +29,7 @@ const multiply = function (a, b) {
 };
 
 const divide = function (a, b) {
+  console.log(b);
   if (a === undefined) {
     a = 0;
     return a / 1;
@@ -54,7 +55,7 @@ const noOperator = function (a) {
 
 // Default Value
 let storeNumA;
-let storeNumB = String(0); // first value
+let storeNumB = null; // first value
 
 const roundNumber = function (numB) {
   if (numB === 'NaN :(') {
@@ -83,7 +84,7 @@ const compute = function (e) {
     // no operator - no compute - no change - 0. value
     display.textContent = storeNumB === '0.' ? String(0) : display.textContent;
     storeNumA = display.textContent;
-    storeNumB = String(0);
+    storeNumB = null;
   } else {
     let result;
     if (operator === 'add') {
@@ -93,7 +94,7 @@ const compute = function (e) {
     } else if (operator === 'multiply') {
       result = multiply(+storeNumA || undefined, +storeNumB);
     } else if (operator === 'divide') {
-      result = divide(+storeNumA || undefined, +storeNumB);
+      result = divide(+storeNumA || undefined, +storeNumB || null);
     }
 
     // Check if it is a 'NaN :(' string
@@ -104,12 +105,12 @@ const compute = function (e) {
     // 2 Round number
     display.textContent = roundNumber(storeNumA); // str
     // 3 Reset value
-    storeNumB = String(0);
+    storeNumB = null;
   }
 };
 
 const checkStrLength = function (numOnDisplay) {
-  const length = numOnDisplay.split('').length;
+  const length = numOnDisplay === null ? 0 : numOnDisplay.split('').length; //
   return length >= 10 ? 'overflow' : 'continue';
 };
 
@@ -123,7 +124,7 @@ const updateDisplay = function (e) {
     audio.play(); // Invalid sound
   } else {
     const num = e.target.textContent;
-    if (storeNumB === String(0) || storeNumB === 'NaN :(') {
+    if (storeNumB === null || storeNumB === 'NaN :(') {
       storeNumB = num;
     } else {
       const newNum = storeNumB + num;
@@ -136,13 +137,18 @@ const updateDisplay = function (e) {
 const displayDecimal = function (e) {
   e.preventDefault();
   clearBtn.textContent = 'C';
-  const hasDecimal = storeNumB.split('').includes('.');
+  const hasDecimal =
+    storeNumB === null ? false : storeNumB.split('').includes('.');
 
   if (storeNumB === 'NaN :(') {
     storeNumB = 0 + '.';
   } else if (!hasDecimal) {
     const tempt = storeNumB;
-    storeNumB = `${tempt}.`;
+    if (tempt === null) {
+      storeNumB = '0.';
+    } else {
+      storeNumB = `${tempt}.`;
+    }
     display.textContent = storeNumB; // str
   } else {
     display.textContent = storeNumB; // str
@@ -177,7 +183,7 @@ let operator;
 let storeOperator;
 
 // Store firstOperand and secondOperand
-let operands = [0, 0]; // for click equal many time
+let operands = [null, null]; // for click equal many time
 
 const assignOperator = function (e) {
   e.preventDefault();
@@ -189,7 +195,7 @@ const assignOperator = function (e) {
       const tempt = operator;
       operator = tempt;
       storeOperator = e.target.id;
-      storeNumB = operands[1];
+      storeNumB = operands[1] === null ? operands[0] : operands[1];
     }
     compute(e);
   } else {
@@ -197,6 +203,9 @@ const assignOperator = function (e) {
     storeOperator = e.target.id; // Store new one
     operands[0] = storeNumA;
     operands[1] = storeNumB;
+    if (storeNumB === null) {
+      storeNumB = operands[0];
+    }
     compute(e);
   }
 };
@@ -228,7 +237,7 @@ const clearValue = function (e) {
   e.preventDefault();
   clearBtn.textContent = 'AC';
   storeNumA = undefined;
-  storeNumB = String(0);
+  storeNumB = null;
   operator;
   storeOperator;
   operands = [0, 0];
